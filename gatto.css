@@ -1,0 +1,153 @@
+/* Reset simples do corpo */
+* {
+  box-sizing: border-box; /* pro margin e o padding, não influenciar na largura dos nossos elementos */
+  margin: 0; /*É o espaço externo de um elemento. */
+  padding: 0; /* É o espaço interno de um elemento. */
+}
+
+/* Corpo da página */
+body {
+  height: 100vh; /* 100 % da Largura da tela */
+  width: 100vw; /* 100% da altura da tela */
+  background: linear-gradient(
+    90deg,
+    rgba(65, 185, 131, 1) 0%,
+    rgba(0, 212, 255, 1) 100%
+  ); /* Cor da página */
+}
+
+.board {
+  display: grid; /* Transforma em grid layout */
+  width: 100%; /* Controla a largura do conteúdo */
+  height: 100%; /* Controla o comprimento do Conteúdo */
+  display: grid; /* Transforma em grid layout */
+  justify-content: center; /* Centraliza todo o conteudo no centro */
+  align-content: center; /* Centraliza tudo no centro verticalmente */
+  justify-items: center; /* Centraliza o conteudo da célula no centro */
+  align-items: center; /* Centraliza o conteudo da célula no centro */
+  grid-template-columns: repeat(3, auto); /* Ele vai ocupar a largura que o cónteudo precisar */
+}
+
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Célula */
+.cell {
+  width: 100px; /* Largura da célula */
+  height: 100px; /* Comprimento da célula */
+  border: 2px solid white; /* Borda branca */
+  display: flex; /* Controla a célula a não sair da ordem */
+  justify-content: center;
+  align-items: center;
+  position: relative; /*permite que um elemento seja posicionado em relação à sua posição normal no fluxo do documento, mantendo o seu espaço no layout */
+}
+
+.cell.x,
+.cell.circle {
+  cursor: not-allowed; /* Bloqueia clique em células já ocupadas */
+}
+
+.cell:nth-child(1), /* Seleciona a célula da div, que você quer modificar da parte de cima */
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none; /* Ele modifica os as células do jogo, da parte de cima */
+}
+
+.cell:nth-child(1),
+.cell:nth-child(4),
+.cell:nth-child(7) {
+  border-left: none;/* Ele modifica os as células do jogo, da parte da esquerda */
+}
+
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) {
+  border-bottom: none; /* Ele modifica os as células do jogo, da parte da direita */
+}
+
+.cell:nth-child(3),
+.cell:nth-child(6),
+.cell:nth-child(9) {
+  border-right: none; /* Ele modifica os as células do jogo, da parte de baixo */
+}
+
+/* X */
+.cell.x::before, /* Conteúdo da div X antes */
+.cell.x::after, /* Conteúdo da div X depois */
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  content: "";
+  height: calc(100px * 0.15); /* Vai começar a linhar a perninha do X, que 15% vai ser o tamanho da célula */
+  width: calc(100px * 0.9); /* Vai ser 90% a altura da célula */
+  background: white; /* Cor branca */
+  position: absolute; /* Ele vai ajudar a cruzar as duas perninhas do X */
+}
+
+/* Vai fazer rotacionar a perninha do X */
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  transform: rotate(45deg);
+}
+
+/* Vai fazer rotacionar a perninha do X, só do outro lado */
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+  transform: rotate(-45deg);
+}
+
+/* Circle */
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+  content: ""; /* Cria um círculo */
+  height: calc(100px * 0.9); /* Altura vai ser 90% da célula */
+  width: calc(100px * 0.9); /* Largura = 90% da célula */
+  background: white;
+  position: absolute;
+  border-radius: 50%; /* Vai fazer ficar redondo */
+}
+
+/* Mensagem de Vitória */
+.winning-message {
+  display: none; /* A mensagem começa escondida */
+  position: fixed; /* Fica fixo na tela */
+  top: 0; 
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;  /* centraliza as células na horizontal */
+  align-items: center; /* centraliza os filhos no eixo vertical */
+  background-color: rgba(0, 0, 0, 0.8);             
+  flex-direction: column; /* Organiza os elemntos em uma coluna */
+}
+
+.winning-message-button {
+  font-size: 2.5rem; /* Pode mudar o tamanho da letra */ 
+  background-color: rgba(65, 185, 131, 1);
+  padding: 10px 15px; /* espaço interno: 10px em cima/baixo, 15px nos lados */
+  cursor: pointer;  /* troca o cursor para a "mãozinha" quando passa em cima */
+  border-radius: 5px; /* cantos arredondados */
+  border: none;  /* remove a borda padrão */
+  margin-top: 16px; /* espaço em cima do botão */
+  color: white; /* Cor da mensagem do botão */
+}
+
+.winning-message-button:hover {
+  color: rgba(65, 185, 131, 1); /* Texto verde */
+  background-color: white; /* Fundo branco */
+}
+
+.winning-message-text {
+  color: white; /* Texto branco */
+  font-size: 5rem; /* Tamanho do texto */
+}
+
+.show-winning-message {
+  display: flex; /* Vai fazer aparecer a vítoria */
+}
+
